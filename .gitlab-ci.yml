@@ -1,4 +1,9 @@
+stages:
+  - build
+  - package
+
 build:
+  stage: build
   image: ubuntu:20.04
   variables:
     DEBIAN_FRONTEND: noninteractive
@@ -11,12 +16,13 @@ build:
       - /dist
 
 package:
+  stage: package
   image: ubuntu:20.04
   variables:
     DEBIAN_FRONTEND: noninteractive
   script:
     - apt-get update -qq
-    - apt-get install -qq make tar gzip
+    - apt-get install -qq make git tar gzip
     - make dist
   artifacts:
     paths:
