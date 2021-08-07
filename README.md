@@ -15,7 +15,7 @@ https://www.pling.com/p/1356095/
 
 2. Run the following commands as normal user:
 
-    ```
+    ```bash
     git clone https://github.com/varlesh/volantes-cursors.git
     cd volantes-cursors
     make build
@@ -23,6 +23,3 @@ https://www.pling.com/p/1356095/
     ```
 
 3. Choose a theme in the Settings or in the Tweaks tool.
-
-
-

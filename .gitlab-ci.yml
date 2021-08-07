@@ -1,0 +1,28 @@
+build:
+  image: ubuntu:20.04
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+  script:
+    - apt-get update -qq
+    - apt-get install -qq make inkscape x11-apps
+    - make build
+  artifacts:
+    paths:
+      - /dist
+
+package:
+  image: ubuntu:20.04
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+  script:
+    - apt-get update -qq
+    - apt-get install -qq make tar gzip
+    - make dist
+  artifacts:
+    paths:
+      - /*.tar.gz
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+      variables:
+        VERSION: ${CI_COMMIT_TAG//v}
+    - if: $CI_COMMIT_BRANCH

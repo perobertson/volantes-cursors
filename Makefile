@@ -19,7 +19,7 @@ uninstall:
 dist: _get_version $(CURSOR_THEMES)
 
 _get_version:
-	$(eval VERSION := $(shell git show -s --format=%cd --date=format:%Y%m%d HEAD))
+	$(eval VERSION ?= $(shell git show -s --format=%cd --date=format:%Y%m%d HEAD))
 	@echo $(VERSION)
 
 release: _get_version
