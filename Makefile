@@ -33,6 +33,6 @@ undo_release: _get_version
 
 $(CURSOR_THEMES):
 	cp -f AUTHORS LICENSE $@
-	tar -C $(dir $@) -czf $(notdir $@)_$(VERSION).tar.gz $(notdir $@)
+	tar -C $(dir $@) -czf $(notdir $@)-$(VERSION).tar.gz $(notdir $@)
 
 .PHONY: all build clean dist install uninstall _get_version release undo_release $(CURSOR_THEMES)
