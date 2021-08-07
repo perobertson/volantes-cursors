@@ -1,0 +1,46 @@
+stages:
+  - build
+  - package
+  - release
+
+build:
+  stage: build
+  image: ubuntu:20.04
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+  script:
+    - apt-get update -qq
+    - apt-get install -qq make inkscape x11-apps
+    - make build
+  artifacts:
+    paths:
+      - dist/
+
+package:
+  stage: package
+  image: ubuntu:20.04
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+  script:
+    - apt-get update -qq
+    - apt-get install -qq make git tar gzip
+    - make dist
+  artifacts:
+    paths:
+      - "*.tar.gz"
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+      variables:
+        VERSION: ${CI_COMMIT_TAG//v}
+    - if: $CI_COMMIT_BRANCH
+
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo "Create release"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    description: $CI_COMMIT_DESCRIPTION
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
